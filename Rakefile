@@ -13,10 +13,10 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "fifo-cache"
-  gem.homepage = "http://github.com/martinkozak/fifo-cache"
+  gem.name = "fluent-query"
+  gem.homepage = "http://github.com/martinkozak/fluent-query"
   gem.license = "MIT"
-  gem.summary = 'Fast hash-like fixed size cache class with FIFO functionality which removes oldest or less accessed records based on implicit heap.'
+  gem.summary = 'General way how to convert series of method calls to string query in an universal and system independent manner. This gem contains development libraries only. SQL implementation is available standalone.'
   gem.email = "martinkozak@martinkozak.net"
   gem.authors = ["Martin Kozák"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
