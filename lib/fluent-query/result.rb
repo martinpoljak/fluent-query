@@ -67,14 +67,10 @@ module FluentQuery
         #
 
         public
-        def assoc(specification, &block)
+        def assoc(*specification, &block)
         
             if block.nil?
                 block = Proc::new { |v| v }
-            end
-            
-            if specification.kind_of? String
-                specification = [specification]
             end
             
             specification = specification.map { |i| i.to_s }

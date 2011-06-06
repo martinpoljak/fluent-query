@@ -57,7 +57,7 @@ module FluentQuery
             driver = driver_class::new(self)
 
             if not driver.kind_of? FluentQuery::Driver
-                raise FluentQuery::Exception("Driver must be subclass of the 'FluentQuery::Driver' class.")
+                raise FluentQuery::Exception::new("Driver must be subclass of the 'FluentQuery::Driver' class.")
             end
 
             # Assigns
@@ -88,7 +88,7 @@ module FluentQuery
             
             # Checks if connection is in open state
             if not @_open
-                raise FluentQuery::Exception("Connection is closed.")
+                raise FluentQuery::Exception::new("Connection is closed.")
             end
 
             ##
@@ -98,7 +98,7 @@ module FluentQuery
             if driver.relevant_method? sym
                 return __query_call(sym, *args, &block)
             else
-                raise FluentQuery::Exception("Method '" << sym.to_s << "' isn't implemented by associated FluentQuery::Driver or FluentQuery::Connection object.")
+                raise FluentQuery::Exception::new("Method '" << sym.to_s << "' isn't implemented by associated FluentQuery::Driver or FluentQuery::Connection object.")
             end
         end
 
@@ -159,7 +159,7 @@ module FluentQuery
         def open!(settings = nil)
 
             if @_open
-                raise FluentQuery::Exception("Connection is already open.")
+                raise FluentQuery::Exception::new("Connection is already open.")
             end
 
             ##
@@ -167,7 +167,7 @@ module FluentQuery
             if (settings == nil) and @_settings
                 settings = @_settings
             elsif settings == nil
-                raise FluentQuery::Exception("Connection settings hasn't been set or given to the #open method.")
+                raise FluentQuery::Exception::new("Connection settings hasn't been set or given to the #open method.")
             end
             
             self.driver.open_connection(settings)
@@ -201,7 +201,7 @@ module FluentQuery
 
             # Checks if connection is in open state
             if not @_open
-                raise FluentQuery::Exception("Connection is closed.")
+                raise FluentQuery::Exception::new("Connection is closed.")
             end
 
             # If query is fluent query object, executes it
@@ -231,7 +231,7 @@ module FluentQuery
 
             # Checks if connection is in open state
             if not @_open
-                raise FluentQuery::Exception("Connection is closed.")
+                raise FluentQuery::Exception::new("Connection is closed.")
             end
 
             # If query is fluent query object, executes it
