@@ -126,7 +126,7 @@ module FluentQuery
                     result << self.quote_value(item)
                 end
 
-                return result.join(glue.dup << " ")
+                return result.join(glue + " ")
             end
 
             ##
@@ -151,7 +151,7 @@ module FluentQuery
                     key = self.quote_identifier(key)
                     value = self.quote_value(value)
 
-                    result << (key.dup << " " << operator << " " << value)  # at least 1000x faster than +=
+                    result << (key + " " + operator + " " + value)
                 end
 
                 return result.join(" " << glue << " ")

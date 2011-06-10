@@ -98,7 +98,16 @@ module FluentQuery
         def build_query(query)
             not_implemented
         end
-
+        
+        ##
+        # Returns preparation placeholder according to given 
+        # library placeholder.
+        #
+        
+        public
+        def quote_placeholder(placeholder)
+            not_implemented
+        end
 
 
         ##### QUOTING

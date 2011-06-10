@@ -65,7 +65,8 @@ module FluentQuery
         ##
         # Returns calls array.
         #
-
+        
+        public
         def calls
             if not @__calls_cache
                 @__calls_cache = {
@@ -135,6 +136,7 @@ module FluentQuery
         # Compiles string.
         #
 
+        public
         def compile(string) 
             output = FluentQuery::Compilers::Result::new
             prefix = self.class::DIRECTIVE_PREFIX
@@ -151,7 +153,7 @@ module FluentQuery
             end
             
        
-            # Splits to directive separated parts
+            # Splits to by directive separated parts
             string.split(prefix).each do |part|
                 match = part.match(regexp)
                 

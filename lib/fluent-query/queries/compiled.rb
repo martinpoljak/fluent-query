@@ -5,10 +5,10 @@ module FluentQuery
     module Queries
     
          ##
-         # Prepared query.
+         # Compiled query.
          #
          
-         class Prepared < FluentQuery::Queries::Abstract
+         class Compiled < FluentQuery::Queries::Abstract
             
             ##
             # Holds query in compiled form.

@@ -1,6 +1,6 @@
 # encoding: utf-8
 require "fluent-query/queries/abstract"
-require "fluent-query/queries/prepared"
+require "fluent-query/queries/compiled"
 require "fluent-query/token"
 require "fluent-query/tokens/raw"
 
@@ -90,14 +90,28 @@ module FluentQuery
         alias :"build!" :build
 
         ##
+        # Compiles query.
+        # Returns compiled query object.
+        #
+        
+        public
+        def compile
+            FluentQuery::Queries::Compiled::new(@connection, self)
+        end
+        
+        alias :"compile!" :compile
+
+        ##
         # Prepares query.
         # Returns prepared query object.
         #
         
         public
-        def prepare!
+        def prepare
             FluentQuery::Queries::Prepared::new(@connection, self)
         end
+        
+        alias :"prepare!" :prepare
 
     end
 end
