@@ -6,17 +6,18 @@ how to convert series of method calls to string query in an universal
 and system independent manner. It may sounds like a piece of magic, but 
 it works. It's inspired by [Dibi][1].
 
+
 ### General Principle
 
 Some example:
 
-    model.select("[id], [name]").from("[maintainers]").orderBy("[code] ASC")
+    connection.select("[id], [name]").from("[maintainers]").orderBy("[code] ASC")
     
 Will be rendered to:
 
     SELECT `id`, `name` FROM `maintainers` ORDER BY `code` ASC
     
-It looks trivial, but for example call `model.heyReturnMeSomething("[yeah]")` 
+It looks trivial, but for example call `connection.heyReturnMeSomething("[yeah]")` 
 will be transformed to:
 
     HEY RETURN ME SOMETHING `yeah`
@@ -28,6 +29,28 @@ It's ensured by appropriate *language* (e.g. database) *driver*.
 And what a more: order of tokens isn't mandatory, so with exception
 of initial world (`SELECT`, `INSERT` etc.) you can add them according to
 your needs.
+
+### Connecting
+
+    # Include it!
+    require "fluent-query/mysql"
+    require "fluent-query"
+    
+    # Setup it!
+    driver = FluentQuery::Drivers::MySQL
+    settings = {
+        :username => "wikistatistics.net",
+        :password => "alfabeta",
+        :server => "localhost",
+        :port => 5432,
+        :database => "wikistatistics.net",
+        :schema => "public"
+    }
+    
+    # Create it!
+    connection = FluentQuery::Connection::new(driver, settings)
+
+Now we have connection prepared for use.
 
 ### Placeholders
 
@@ -51,7 +74,7 @@ And also three special:
 
 An example:
 
-    model.select("[id], [name]") \
+    connection.select("[id], [name]") \
       .from("[maintainers]") \
       .where("[id] = %%i AND company = %%s", 5, "Wikia") \
       .where("[language] IN %%l", ["cz", "en"]) \
@@ -69,7 +92,7 @@ Will be transformed to:
 It's way how to write complex or special queries. But **direct values 
 assigning is supported**, so for example:
 
-    model.select(:id, :name) \
+    connection.select(:id, :name) \
       .from(:maintainers) \
       .where(:id => 5, :company => "Wikia") \
       .where("[language] IN %%l", ["cz", "en"])   # %l will join items by commas
@@ -77,7 +100,99 @@ assigning is supported**, so for example:
       .where(:active => true)
       
 Will give you expected result too and as you can see, it's much more 
-readable, flexible, so preferred.    
+readable, flexible, thus it's preferred. 
+
+### Checking Out the Results
+
+Query results can be executed by `#execute` which returns result object
+or by `#do` which returns count of affected rows. Following methods for
+checking out the results are available:
+
+* `#each` which iterates through all returned rows,
+* `#one` which returns first row only,
+* `#single` which returns first value fo first row,
+* `#assoc` which allows building complex Hashes (see below).
+    
+#### Associative Fetching
+
+Special associative method is the `assoc` one which is directly inspired
+by appropriate feature of the [Dibi][1] layer. It's aim is automatic
+aggregation of returned rows to multidimensional Hashes.
+
+Simply give it key names from your dataset. Be warn, only one or two 
+levels (e.g. dimesions in resultant Hash) are supported:
+
+    records = connection.select(:maintainer_id, :language) \
+        .from(:sites) \
+        .execute.assoc(:maintainer_id, :language)
+    
+Will transform the dataset:
+
+    # maintainer_id, language, name
+    [1, "en", "English Wikipedia"],
+    [1, "es", "Spain Wikipedia"],
+    [2, "cs", "Czech Wikihow"],
+    [2, "ja", "Japan Wikihow"],
+
+To the following structure:
+
+        1 => {
+            "en" => "English Wikipedia",
+            "es" => "Spain Wikipedia"
+        },
+        
+        2 => {
+            "cs" => "Czech Wikihow",
+            "ja" => "Japan Wikihow"
+        }
+
+### Inserts, Updates and Deletes
+
+Inserting, updating and deleteing the records works by the same way as
+selecting. Some examples:
+
+    connection.insert(:maintainers, :name => "Wikimedia", :country => "United States")
+    
+    # Will be:
+    #   INSERT INTO `maintainers` (`name`, `country`) VALUES ("Wikimedia", "United States")
+    
+    connection.update(:maintainers).set(:country => "Czech Republic").where(:id => 10).limit(1)
+    
+    # Will be:
+    #   UPDATE `maintainers` SET `country` = "Czech Republic" WHERE `id` = 10 LIMIT 1
+    
+    connection.delete(:maintainers).where(:id => 10).limit(1)
+    
+    # Will be:
+    #   DELETE FROM `maintainers` WHERE `id` = 10 LIMIT 1
+    
+
+#### Transactions
+
+Transactions support is available manual:
+    
+* `connection.begin`,
+* `connection.commit`,
+* `connection.rollback`.
+
+Or by automatic way:
+
+    connection.transaction do
+        #...
+    end
+
+### Compiled and Prepared Queries
+
+Queries can be pre-prepared and pre-optimized by two different methods:
+
+* `#compile` which compiles query to form of array of direct callbacks, 
+so builds it and quotes all identifiers, keeps intact placeholders only,
+* `#prepare` which transforms compiled query to prepared form as it's
+known from DBD or PDO if it's supported by driver.
+
+Simply call one of these methods upon the query and use resultant query
+as usuall (of sure, without methods which would change it because it's
+compiled so cannot be further changed).
 
 ### Examples
 
