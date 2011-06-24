@@ -5,6 +5,7 @@ module FluentQuery
         
      ##
      # Represents abstract query driver.
+     # @abstract
      #
      
      class Driver
@@ -33,6 +34,7 @@ module FluentQuery
 
         ##
         # Indicates, method is relevant for the driver.
+        # @abstract
         #
 
         public
@@ -43,6 +45,7 @@ module FluentQuery
 
         ##
         # Indicates token is known.
+        # @abstract
         #
 
         public
@@ -52,6 +55,7 @@ module FluentQuery
 
         ##
         # Indicates, token is operator.
+        # @abstract
         #
 
         public
@@ -61,6 +65,7 @@ module FluentQuery
 
         ##
         # Returns operator string according to operator symbol.
+        # @abstract
         #
 
         public
@@ -75,6 +80,8 @@ module FluentQuery
         #   * "assigning" which classicaly keeps for example the '=' operator,
         #   * "comparing" which sets for example 'IS' operator for booleans.
         #
+        # @abstract
+        #
 
         public
         def quote_equality(datatype, mode = :comparing)
@@ -83,6 +90,7 @@ module FluentQuery
 
         ##
         # Indicates which query subclass to use.
+        # @abstract
         #
 
         public
@@ -92,6 +100,7 @@ module FluentQuery
 
         ##
         # Builds given query.
+        # @abstract
         #
 
         public
@@ -102,6 +111,8 @@ module FluentQuery
         ##
         # Returns preparation placeholder according to given 
         # library placeholder.
+        #
+        # @abstract
         #
         
         public
@@ -114,6 +125,7 @@ module FluentQuery
 
         ##
         # Quotes string.
+        # @abstract
         #
 
         public
@@ -123,6 +135,7 @@ module FluentQuery
 
         ##
         # Quoting integer.
+        # @abstract
         #
 
         public
@@ -132,6 +145,7 @@ module FluentQuery
 
         ##
         # Quotes float.
+        # @abstract
         #
 
         public
@@ -141,6 +155,7 @@ module FluentQuery
 
         ##
         # Quotes field by field quoting.
+        # @abstract
         #
 
         public
@@ -150,6 +165,7 @@ module FluentQuery
 
         ##
         # Creates system-dependent NULL.
+        # @abstract
         #
 
         public
@@ -159,6 +175,7 @@ module FluentQuery
 
         ##
         # Quotes system-dependent boolean value.
+        # @abstract
         #
 
         public
@@ -168,6 +185,7 @@ module FluentQuery
 
         ##
         # Quotes system-dependent date value.
+        # @abstract
         #
 
         public
@@ -177,6 +195,7 @@ module FluentQuery
 
         ##
         # Quotes system-dependent subquery.
+        # @abstract
         #
 
         public
@@ -194,6 +213,8 @@ module FluentQuery
         # It's lazy, so it will open connection before first request through
         # {@link native_connection()} method.
         #
+        # @abstract
+        #
 
         public
         def open_connection(settings)
@@ -202,6 +223,7 @@ module FluentQuery
 
         ##
         # Returns native connection.
+        # @abstract
         #
 
         public
@@ -211,6 +233,7 @@ module FluentQuery
 
         ##
         # Closes the connection.
+        # @abstract
         #
 
         public
@@ -220,6 +243,7 @@ module FluentQuery
 
         ##
         # Executes the query.
+        # @abstract
         #
 
         public
@@ -229,10 +253,24 @@ module FluentQuery
 
         ##
         # Executes the query and returns count of the changed/inserted rows.
+        # @abstract
         #
 
         public
         def do(query)
+            not_implemented
+        end
+        
+        ##
+        # Generates prepared query. Should be noted, if driver doesn't
+        # support query preparing, it should be +not_implemented+ and
+        # unimplemented.
+        #
+        # @abstract
+        #
+        
+        public
+        def prepare(query)
             not_implemented
         end
 

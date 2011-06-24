@@ -64,7 +64,7 @@ module FluentQuery
 
             public
             def execute(*args)
-                @connection.execute(self.build(*args).to_s)
+                @connection.execute(self.build(*args))
             end
             
             alias :"execute!" :execute                
@@ -75,7 +75,7 @@ module FluentQuery
             
             public
             def do(*args)
-                @connection.do(self.build(*args).to_s)
+                @connection.do(self.build(*args))
             end
             
             alias :"do!" :do

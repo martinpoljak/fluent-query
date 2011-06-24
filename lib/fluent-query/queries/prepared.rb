@@ -8,14 +8,13 @@ module FluentQuery
          # Compiled query.
          #
          
-         class Compiled < FluentQuery::Queries::Abstract
+         class Prepared < FluentQuery::Queries::Abstract
             
             ##
-            # Holds query in compiled form.
+            # Holds query in prepared form.
             #
             
-            @raw
-            attr_accessor :raw
+            @query
 
             ##
             # Constructor.
@@ -24,7 +23,7 @@ module FluentQuery
             public
             def initialize(connection, query)
                 super(connection)
-                @raw = query.processor.compile(@connection.driver.build_query(query, :compile))
+                @query = @connection.driver.prepare(query)
             end
             
             ##
@@ -33,7 +32,7 @@ module FluentQuery
             
             public
             def build(*args)
-                @raw.complete(*args)
+                [@query, args]
             end
             
             ##

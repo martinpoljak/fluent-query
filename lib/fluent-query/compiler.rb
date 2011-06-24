@@ -68,7 +68,7 @@ module FluentQuery
         
         public
         def calls
-            if not @__calls_cache
+            if @__calls_cache.nil?
                 @__calls_cache = {
                     :i => Proc::new { |v| @_processor.quote_value(v.to_i) },
                     :s => Proc::new { |v| @_processor.quote_value(v.to_s) },
@@ -129,7 +129,7 @@ module FluentQuery
                 }
             end
             
-            return @__calls_cache
+            @__calls_cache
         end
 
         ##

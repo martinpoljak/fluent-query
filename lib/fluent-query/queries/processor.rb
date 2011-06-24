@@ -100,7 +100,7 @@ module FluentQuery
             #
             
             @_compiler
-
+            
             ##
             # Constructs processor.
             # @param MP_Fluent_Driver driver  Driver upon which processor should work upon.
@@ -165,7 +165,7 @@ module FluentQuery
 
             public
             def quote_value(value)
-            
+
                 if (value.kind_of? String) or (value.kind_of? Symbol)
                     result = @driver.quote_string(value.to_s)
                 elsif value.kind_of? Integer
@@ -232,7 +232,7 @@ module FluentQuery
             ##
             # Processed strings with format definitions and data specifications.
             #
-            # Mode can be :prepare, :build or :finish. Preparing means building the 
+            # Mode can be :compile, :build or :finish. Compiling means building the 
             # query without expanding the formatting directives. Finishing means
             # building the prepared query.
             #
@@ -266,7 +266,7 @@ module FluentQuery
                             end
                         end
                         
-                        if mode != :prepare
+                        if mode != :compile
                             item.gsub!(self.expander) do |directive| 
                                 self.process_directive(directive, sequence[i += 1], expander_settings) 
                             end
@@ -342,11 +342,11 @@ module FluentQuery
 
             public
             def expander
-                if not @__fluent_expander
+                if @__fluent_expander.nil?
                     @__fluent_expander = self.class::FORMATTING_DIRECTIVE            
                 end
 
-                return @__fluent_expander
+                @__fluent_expander
             end
 
             ##
@@ -355,7 +355,7 @@ module FluentQuery
 
             public
             def replacer
-                if not @__fluent_replacer
+                if @__fluent_replacer.nil?
                     parts = Array[self.class::COLUMN_DIRECTIVE, self.class::STRING_DIRECTIVE]
 
                     result = ""
@@ -364,7 +364,7 @@ module FluentQuery
                     @__fluent_replacer = Regexp::new(result)
                 end
 
-                return @__fluent_replacer
+                @__fluent_replacer
             end
             
             ##
@@ -372,11 +372,11 @@ module FluentQuery
             #
             
             def compiler
-                if not @_compiler
+                if @_compiler.nil?
                     @_compiler = FluentQuery::Compiler::new(self)
                 end
                 
-                return @_compiler
+                @_compiler
             end
             
             ##
