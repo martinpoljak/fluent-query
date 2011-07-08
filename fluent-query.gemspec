@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
     "lib/fluent-query/drivers/result.rb",
     "lib/fluent-query/exception.rb",
     "lib/fluent-query/queries/abstract.rb",
-    "lib/fluent-query/queries/prepared.rb",
+    "lib/fluent-query/queries/compiled.rb",
     "lib/fluent-query/queries/processor.rb",
     "lib/fluent-query/query.rb",
     "lib/fluent-query/result.rb",
