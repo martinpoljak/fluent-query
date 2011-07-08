@@ -1,6 +1,7 @@
 # encoding: utf-8
 require "fluent-query/queries/abstract"
 require "fluent-query/queries/compiled"
+require "fluent-query/queries/prepared"
 require "fluent-query/token"
 require "fluent-query/tokens/raw"
 
