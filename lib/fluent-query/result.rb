@@ -73,7 +73,7 @@ module FluentQuery
                 block = Proc::new { |v| v }
             end
             
-            specification = specification.map { |i| i.to_s }
+            specification.map! { |i| i.to_s }
             length = specification.length
             result = { }
 

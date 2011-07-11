@@ -194,6 +194,13 @@ Simply call one of these methods upon the query and use resultant query
 as usuall (of sure, without methods which would change it because it's
 compiled so cannot be further changed).
 
+Also note, SQL token calls cannot be called by mandatory way (e.g. you 
+can call `#order` before `#where` etc.), but they will be reordered
+in resultant both compiled and prepared query, so arguments given to 
+execute must be taken to call in correct order according to resultant
+SQL query. So in case of using compiled or prepared statements, it's 
+good idea to write calls in the same order as SQL requires.
+
 ### Examples
 
 More examples or tutorials than these above aren't available. It's in 

@@ -105,8 +105,8 @@ module FluentQuery
             #
 
             public
-            def assoc(specification, &block)
-                self.execute.assoc(specification, &block)
+            def assoc(*specification, &block)
+                self.execute.assoc(*specification, &block)
             end
 
             ##
