@@ -77,12 +77,12 @@ module FluentQuery
                     
                     :l => Proc::new do |v|
                         if v.kind_of? Array
-                            output = argument
+                            output = v
                         elsif v.kind_of? Hash
-                            output = argument.values
+                            output = v.values
                         end
 
-                        "(" << @_processor.process_array(v) << ")"
+                        "(" << @_processor.process_array(output) << ")"
                     end,
             
                     :d => Proc::new do |v|

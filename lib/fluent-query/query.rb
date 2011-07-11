@@ -36,8 +36,8 @@ module FluentQuery
 
         public
         def method_missing(sym, *args, &block)
+            
             self.push_token(sym, args)
-
             driver = @connection.driver
             conditionally = driver.execute_conditionally(self, sym, *args, &block)
 
