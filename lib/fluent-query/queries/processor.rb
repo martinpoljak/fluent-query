@@ -166,11 +166,11 @@ module FluentQuery
             public
             def quote_value(value)
 
-                if (value.kind_of? String) or (value.kind_of? Symbol)
+                if (value.string?) or (value.symbol?)
                     result = @driver.quote_string(value.to_s)
                 elsif value.kind_of? Integer
                     result = @driver.quote_integer(value)
-                elsif value.kind_of? Array
+                elsif value.array?
                     result = "(" << self.process_array(value) << ")"    # TODO: question is, if we should do it here, if it's enough general just for processor
                 elsif value.kind_of? Float
                     result = @driver.quote_float(value)
@@ -178,7 +178,7 @@ module FluentQuery
                     result = @driver.quote_boolean(value)
                 elsif (value.kind_of? Date) or (value.kind_of? DateTime)
                     result = @driver.quote_date_time(value)
-                elsif value.kind_of? NilClass
+                elsif value.nil?
                     result = @driver.null
                 else
                     result = value.to_s
@@ -216,7 +216,7 @@ module FluentQuery
 
             public
             def quote_identifiers(identifiers)
-                identifiers.map { |item| self.quote_identifier(item) }
+                identifiers.map { |i| self.quote_identifier(i) }
             end
            
             ##
@@ -239,7 +239,6 @@ module FluentQuery
 
             public
             def process_formatted(sequence, mode = :build)
-            
                 count = sequence.length
                 i = 0
                 output = ""

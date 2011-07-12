@@ -12,17 +12,6 @@ module FluentQuery
      #
      
      class Data < ::Hashie::Mash
-=begin
-        def method_missing(sym, *args, &block)
-            symbol = sym.to_s
-            
-            if symbol.last == ?=
-                  self[symbol[0..-2]] = args.first
-            else
-                self[symbol]
-            end
-        end
-=end
      end
      
 end

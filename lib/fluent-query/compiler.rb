@@ -2,6 +2,7 @@
 require "date"
 require "fluent-query/query"
 require "fluent-query/compilers/result"
+require "hash-utils/array"  # >= 0.17.0
 
 module FluentQuery
 
@@ -76,9 +77,9 @@ module FluentQuery
                     :f => Proc::new { |v| @_processor.quote_value(v.to_f) },
                     
                     :l => Proc::new do |v|
-                        if v.kind_of? Array
+                        if v.array?
                             output = v
-                        elsif v.kind_of? Hash
+                        elsif v.hash?
                             output = v.values
                         end
 
@@ -86,7 +87,7 @@ module FluentQuery
                     end,
             
                     :d => Proc::new do |v|
-                        if v.kind_of? String
+                        if v.string?
                             output = Date.parse(v)
                         elsif argument.kind_of? DateTime
                             output = Date.parse(v.to_s)
@@ -98,7 +99,7 @@ module FluentQuery
                     end,
                         
                     :t => Proc::new do |v|
-                        if v.kind_of? String
+                        if v.string?
                             output = DateTime.parse(v)
                         elsif argument.kind_of? Date
                             output = DateTime.parse(v.to_s)
