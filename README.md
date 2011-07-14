@@ -1,7 +1,7 @@
 Fluent Query
 ============
 
-**Fluent Query** is cool way how to write SQL queries. And general way 
+**Fluent Query** is cool way how to write SQL queries and general way 
 how to convert series of method calls to string query in an universal 
 and system independent manner. It may sounds like a piece of magic, but 
 it works. It's inspired by [Dibi][1].
