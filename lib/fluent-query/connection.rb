@@ -256,7 +256,12 @@ module FluentQuery
         public
         def transaction(&block)
             self.begin
-            block.call
+            begin
+                block.call
+            rescue ::Exception => e
+                self.rollback
+                raise e
+            end
             self.commit
         end
 
