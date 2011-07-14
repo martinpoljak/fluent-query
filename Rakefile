@@ -18,7 +18,7 @@ Jeweler::Tasks.new do |gem|
   gem.name = "fluent-query"
   gem.homepage = "http://github.com/martinkozak/fluent-query"
   gem.license = "MIT"
-  gem.summary = 'General way how to convert series of method calls to string query in an universal and system independent manner. This gem contains development libraries only. SQL implementation is available standalone.'
+  gem.summary = 'Cool way how to write SQL queries. And general way how to convert series of method calls to string query in an universal and system independent manner. This gem contains base libraries only. SQL implementation is available standalone.'
   gem.email = "martinkozak@martinkozak.net"
   gem.authors = ["Martin Kozák"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
