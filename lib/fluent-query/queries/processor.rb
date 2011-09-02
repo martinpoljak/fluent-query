@@ -1,6 +1,7 @@
 # encoding: utf-8
-require "date"
 require "hash-utils/string"
+require "hash-utils/object"
+require "date"
 
 require "fluent-query/query"
 require "fluent-query/compiler"
@@ -120,12 +121,9 @@ module FluentQuery
 
             public
             def process_array(array, glue = ",")
-                result = [ ]
-                
-                array.each do |item|
-                    result << self.quote_value(item)
+                result = array.map do |i| 
+                    self.quote_value(i)
                 end
-
                 return result.join(glue + " ")
             end
 
@@ -232,9 +230,12 @@ module FluentQuery
             ##
             # Processed strings with format definitions and data specifications.
             #
-            # Mode can be :compile, :build or :finish. Compiling means building the 
-            # query without expanding the formatting directives. Finishing means
-            # building the prepared query.
+            # Mode can be +:compile+, +:build+, +:prepare+ or +:finish+. 
+            # Compiling means building the query without expanding the 
+            # formatting directives. Finishing means building the 
+            # compiled query. Building means both of them. Preparing is 
+            # basically the same as compiling, but modifies behaviour 
+            # of some tokens such as +INSERT+.
             #
 
             public
@@ -258,14 +259,14 @@ module FluentQuery
                         #  finding expression directive processing. In each call increases
                         #  sequence position counter so moves forward.
 
-                        if mode != :finish
+                        if mode.in? [:compile, :build, :prepare]
                             item.gsub!(self.replacer) do |directive| 
                                 directive.strip!
                                 self.process_directive(directive, nil, replacer_settings)
                             end
                         end
                         
-                        if mode != :compile
+                        if mode.in? [:finish, :build]
                             item.gsub!(self.expander) do |directive| 
                                 self.process_directive(directive, sequence[i += 1], expander_settings) 
                             end
@@ -300,7 +301,7 @@ module FluentQuery
                     result = directive.gsub(self.class::COLUMN_DIRECTIVE_SIMPLE) { |value| self.quote_identifier(value[1..-2]) }
                 elsif (replacements & self.class::STRING_REPLACEMENT > 0) and (directive[-1].ord == 34)           # "\"", String directive
                     result = directive.gsub('"', @driver.quote_string("").last)
-                elsif (replacements & self.class::FORMATTING_REPLACEMENT > 0) and (directive[0..1].to_sym == :"%%")   # Formatting directive
+                elsif (replacements & self.class::FORMATTING_REPLACEMENT > 0) and (directive[0..1] == "%%")   # Formatting directive
                     result = directive.gsub(self.class::FORMATTING_DIRECTIVE_SIMPLE) { |value| self.process_formatting(value[2..-1], argument) }
                 else
                     result = directive

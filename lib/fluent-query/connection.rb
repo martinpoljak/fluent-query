@@ -97,13 +97,7 @@ module FluentQuery
             
             driver = self.driver
             
-            if sym.start_with? "prepare_"
-                _sym = sym[8..-1].to_sym
-            else
-                _sym = sym
-            end
-            
-            if driver.relevant_method? _sym
+            if driver.relevant_method? sym
                 return __query_call(sym, *args, &block)
             else
                 raise FluentQuery::Exception::new("Method '" << sym.to_s << "' isn't implemented by associated FluentQuery::Driver or FluentQuery::Connection object.")
@@ -276,7 +270,7 @@ module FluentQuery
 
 
         #####
-
+=begin
         ##
         # Handles built-in shortcut.
         #
@@ -291,7 +285,7 @@ module FluentQuery
 
             return result
         end
-
+=end
         ##
         # Performs query initiating call.
         #
@@ -303,7 +297,7 @@ module FluentQuery
             # Executes query conditionally. If query isn't suitable for
             # executing, sends the symbol to it and returns call result.
 
-            query.send(sym, *args)
+            query = query.send(sym, *args)
             
             # Calls given block in query context.
             

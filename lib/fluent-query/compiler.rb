@@ -1,8 +1,8 @@
 # encoding: utf-8
-require "date"
-require "fluent-query/query"
 require "fluent-query/compilers/result"
+require "fluent-query/query"
 require "hash-utils/array"  # >= 0.17.0
+require "date"
 
 module FluentQuery
 

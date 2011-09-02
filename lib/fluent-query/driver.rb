@@ -285,6 +285,18 @@ module FluentQuery
         def check_conditionally(query, sym, *args, &block)
         end
 
+        ##
+        # Corrects token before it's pushed to the token. So allows to
+        # modify data assigned to the query from driver level.
+        #
+        # @since 0.9.2
+        #
+        
+        public
+        def correct_token(name, args)
+            return [name, args]
+        end
+
      end
 end
 
