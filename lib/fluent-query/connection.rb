@@ -1,4 +1,6 @@
 # encoding: utf-8
+
+require "hash-utils/symbol"
 require "fluent-query/result"
 require "fluent-query/driver"
 require "fluent-query/exception"
@@ -96,7 +98,7 @@ module FluentQuery
             driver = self.driver
             
             if sym.start_with? "prepare_"
-                _sym = sym[8..-1]
+                _sym = sym[8..-1].to_sym
             else
                 _sym = sym
             end
