@@ -39,7 +39,7 @@ module FluentQuery
             
             self.push_token(sym, args)
             driver = @connection.driver
-            conditionally = driver.execute_conditionally(self, sym, *args, &block)
+            conditionally = driver.check_conditionally(self, sym, *args, &block)
 
             if not conditionally.nil?
                 result = conditionally

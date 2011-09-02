@@ -273,6 +273,17 @@ module FluentQuery
         def prepare(query)
             not_implemented
         end
+                    
+        ##
+        # Checks query conditionally. It's called after first token
+        # of the query.
+        #
+        # @since 0.9.2
+        #
+        
+        public
+        def check_conditionally(query, sym, *args, &block)
+        end
 
      end
 end
