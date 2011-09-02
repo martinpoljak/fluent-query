@@ -95,7 +95,13 @@ module FluentQuery
             
             driver = self.driver
             
-            if driver.relevant_method? sym
+            if sym.start_with? "prepare_"
+                _sym = sym[8..-1]
+            else
+                _sym = sym
+            end
+            
+            if driver.relevant_method? _sym
                 return __query_call(sym, *args, &block)
             else
                 raise FluentQuery::Exception::new("Method '" << sym.to_s << "' isn't implemented by associated FluentQuery::Driver or FluentQuery::Connection object.")
