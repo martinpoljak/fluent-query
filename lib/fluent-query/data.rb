@@ -1,6 +1,4 @@
 # encoding: utf-8
-require "hash-utils/string"
-require "hashie/mash"
 
 module FluentQuery
 
@@ -11,7 +9,16 @@ module FluentQuery
      # access its fields by "object way".
      #
      
-     class Data < ::Hashie::Mash
+     class Data < ::Hash
+     
+        ##
+        # Maps missing calls to data elements.
+        #
+        
+        def method_missing(name)
+            self[name]
+        end
+        
      end
      
 end
