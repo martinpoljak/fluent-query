@@ -221,7 +221,7 @@ Contributing
 Copyright
 ---------
 
-Copyright &copy; 2009-2011 [Martin Kozák][3]. See `LICENSE.txt` for
+Copyright &copy; 2009-2012 [Martin Kozák][3]. See `LICENSE.txt` for
 further details.
 
 [1]: http://dibiphp.com/
