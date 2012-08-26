@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 # Add dependencies required to use your gem here.
 # Example:
-   gem "hash-utils", ">= 0.18.0"
+   gem "hash-utils", ">= 2.0.1"
    gem "abstract", ">= 1.0.0"
 
 # Add dependencies to develop your gem here.

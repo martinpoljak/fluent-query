@@ -3,7 +3,7 @@ GEM
   specs:
     abstract (1.0.0)
     git (1.2.5)
-    hash-utils (2.0.0)
+    hash-utils (2.0.1)
       ruby-version
     jeweler2 (2.0.9)
       git (>= 1.2.5)
@@ -15,5 +15,5 @@ PLATFORMS
 DEPENDENCIES
   abstract (>= 1.0.0)
   bundler (>= 1.0.13)
-  hash-utils (>= 0.18.0)
+  hash-utils (>= 2.0.1)
   jeweler2 (>= 2.0.0)
