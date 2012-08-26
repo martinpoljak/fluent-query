@@ -1,7 +1,8 @@
 # encoding: utf-8
 require "fluent-query/compilers/result"
+require "fluent-query/exception"
 require "fluent-query/query"
-require "hash-utils/array"  # >= 0.17.0
+require "hash-utils/array"  # >= 2.0.1
 require "date"
 
 module FluentQuery
@@ -81,6 +82,10 @@ module FluentQuery
                             output = v
                         elsif v.hash?
                             output = v.values
+                        elsif v.enumerable?
+                            output = v
+                        else
+                            raise ::FluentQuery::Exception::new('Invalid object provided to the list placeholder. Enumerable expected.')
                         end
 
                         "(" << @_processor.process_array(output) << ")"
